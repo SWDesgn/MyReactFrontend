@@ -1,0 +1,59 @@
+@font-face {
+    font-family: "VCR OSD Mono" ;
+    src: url('/font/VCR_OSD_MONO.ttf');}
+
+body {
+    font-family: "VCR OSD Mono" ;
+    font-size: 36px;
+    margin-top: 20px;
+    text-align: center;
+    background-color: chartreuse;
+}
+
+  /* Style the tab */
+  .Tab {
+    overflow: hidden;
+    background-color: inherit;
+  }
+  
+  .Button {     
+    margin-top: 0px;
+    width: 100%;
+    }
+
+.Button-button {
+    font-family: "VCR OSD Mono";
+    font-size: xx-large;
+    background-color: inherit;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    float:left;
+    color: white;
+    padding: 25px;
+    text-align:center;
+    outline: none;
+  }
+
+  .Button-button:hover {
+    background-color: white; 
+    color: chartreuse;                                                  
+  }
+
+  .Name {
+    margin-top:100px;
+  }
+
+  .Time{
+    margin: auto;
+    width: 100%;
+    color: white;
+    position: absolute;
+    bottom:0;             
+    text-align: center;         
+  }
+
+  .Time-time{
+    text-align: center; 
+    font-size:20px ;                    
+  }
