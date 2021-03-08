@@ -76,7 +76,7 @@ class TabControl extends React.Component {
   render() {
     return (
       <div className="Tab">
-        <Button label="Who" onClick={this.handleWhoDisClick} />
+        <Button label="Who Dis?" onClick={this.handleWhoDisClick} />
         <Button label="Projects" onClick={this.handleProjectsClick} />
         <Button label="Blog" />
       </div>
@@ -86,10 +86,6 @@ class TabControl extends React.Component {
 
 
 class Button extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return <div className="Button">
       <button className="Button-button" onClick={this.props.onClick}>
