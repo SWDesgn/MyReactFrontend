@@ -2,7 +2,7 @@
 
 Project to get started in Frontend-development using ReactJS.
 
-To be published at: **http://www.altergott.info/**
+To be published at: **http://www.oliveraltergott.com/**
 
 ## Prerequisites
 

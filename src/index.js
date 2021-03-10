@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Document, Page } from 'react-pdf';
+import { pdfjs } from 'react-pdf';
+import 'react-pdf/dist/umd/Page/AnnotationLayer.css';
+
 import './index.css';
 
+import CVPdf from './main.pdf';
 
 //===============COMPONENTS===============
 
@@ -9,10 +14,57 @@ function App() {
   return (
     <div>
       <TabControl />
-      <Time />
+      <Time enable={true} />
+      <Copyright />
     </div>
   );
 }
+
+class Copyright extends React.Component {
+  render() {
+    return (
+      <div className="Copyright">
+        <p>&copy; 2021 Oliver Altergott</p>
+      </div>
+    );
+  }
+}
+
+class CV extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { loadedWorker: false };
+  }
+
+  async componentDidMount() {
+    const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.entry');
+    pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+
+    this.setState(state => ({
+      loadedWorker: true
+    }));
+    console.log("loadedWorker");
+  }
+
+  render() {
+    if (!this.props.enable) {
+      return null;
+    }
+
+    const isLoadedWorker = this.state.loadedWorker;
+    return (
+      <div className="CV">
+        {isLoadedWorker &&
+          <Document className="CV-Doc"
+            file={CVPdf} renderMode="canvas" >
+            <Page pageNumber={1} renderAnnotationLayer="false" renderTextLayer="false" height="1200" renderInteractiveForms="false" />
+          </Document>}
+      </div>
+    );
+  }
+}
+
 
 class Time extends React.Component {
   constructor(props) {
@@ -38,6 +90,9 @@ class Time extends React.Component {
   }
 
   render() {
+    if (!this.props.enable) {
+      return null;
+    }
     return <div className="Time">
       <h3 className="Time-time">
         Time: {FormattedTime(this.state)}
@@ -67,31 +122,47 @@ class TabControl extends React.Component {
   }
 
   handleProjectsClick() {
-    this.setState(state => ({
-      isProjects: !state.isProjects
-    }));
     console.log("click on projects");
+    openInNewTab("https://github.com/SWDesgn");
   }
 
   render() {
     return (
-      <div className="Tab">
-        <Button label="Who Dis?" onClick={this.handleWhoDisClick} />
-        <Button label="Projects" onClick={this.handleProjectsClick} />
-        <Button label="Blog" />
+      <div>
+        <div className="Tab">
+          <Button label="Who Dis?" onClick={this.handleWhoDisClick} active={this.state.isWhoDis} />
+          <Button label="Github" onClick={this.handleProjectsClick} active={this.state.isProjects} />
+          <Button label="Blog" />
+        </div>
+        <CV enable={this.state.isWhoDis} />
       </div>
     );
+  }
+}
+
+function openInNewTab(url) {
+  var win = window.open(url, '_blank');
+  if (win != null) {
+    win.focus();
   }
 }
 
 
 class Button extends React.Component {
   render() {
-    return <div className="Button">
-      <button className="Button-button" onClick={this.props.onClick}>
-        {this.props.label}
-      </button>
-    </div>;
+    if (this.props.active) {
+      return <div className="Button">
+        <button className="Button-On" onClick={this.props.onClick} >
+          {this.props.label}
+        </button>
+      </div>;
+    } else {
+      return <div className="Button">
+        <button className="Button-Off" onClick={this.props.onClick} >
+          {this.props.label}
+        </button>
+      </div>;
+    }
   }
 }
 
