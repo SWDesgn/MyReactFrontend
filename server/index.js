@@ -3,8 +3,6 @@ const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
@@ -26,7 +24,7 @@ if (!isDev && cluster.isMaster) {
     const app = express();
 
     // Priority serve any static files.
-    app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
+    app.use(express.static(path.resolve(__dirname, '../frontend-react/build')));
 
     // Answer API requests.
     app.get('/api', function (req, res) {
@@ -36,7 +34,7 @@ if (!isDev && cluster.isMaster) {
 
     // All remaining requests return the React app, so it can handle routing.
     app.get('*', function (request, response) {
-        response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+        response.sendFile(path.resolve(__dirname, '../frontend-react/build', 'index.html'));
     });
 
     app.listen(PORT, function () {
