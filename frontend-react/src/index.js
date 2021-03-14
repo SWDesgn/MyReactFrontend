@@ -6,18 +6,32 @@ import 'react-pdf/dist/umd/Page/AnnotationLayer.css';
 
 import './index.css';
 
-import CVPdf from './main.pdf';
+import CVPdf from './cv.pdf';
 
 //===============COMPONENTS===============
 
 function App() {
   return (
-    <div>
-      <TabControl />
-      <Time enable={true} />
-      <Copyright />
+    <div className="App">
+      <Content />
+      <Footer />
     </div>
   );
+}
+
+
+class Footer extends React.Component {
+  render() {
+    return (
+      <div className="Footer" >
+        <ColoredLine color="inherit" />
+        <div className="Footer_content">
+          <Copyright />
+          <Time enable={true} />
+        </div>
+      </div >
+    );
+  }
 }
 
 class Copyright extends React.Component {
@@ -106,12 +120,13 @@ function FormattedTime(props) {
 }
 
 
-class TabControl extends React.Component {
+class Content extends React.Component {
   constructor(props) {
     super(props);
     this.handleWhoDisClick = this.handleWhoDisClick.bind(this);
-    this.handleProjectsClick = this.handleProjectsClick.bind(this);
-    this.state = { isWhoDis: false, isProjects: false };
+    this.handleGithubClick = this.handleGithubClick.bind(this);
+    this.handleFBClick = this.handleFBClick.bind(this);
+    this.state = { isWhoDis: false };
   }
 
   handleWhoDisClick() {
@@ -121,24 +136,47 @@ class TabControl extends React.Component {
     console.log("click on whodis");
   }
 
-  handleProjectsClick() {
-    console.log("click on projects");
+  handleGithubClick() {
+    console.log("click on github");
     openInNewTab("https://github.com/SWDesgn");
+  }
+
+  handleFBClick() {
+    console.log("click on fb");
+    openInNewTab("https://www.facebook.com/oliver.altergott");
   }
 
   render() {
     return (
-      <div>
-        <div className="Tab">
-          <Button label="Who Dis?" onClick={this.handleWhoDisClick} active={this.state.isWhoDis} />
-          <Button label="Github" onClick={this.handleProjectsClick} active={this.state.isProjects} />
-          <Button label="Blog" />
+      <div className="Content">
+        <div className="Header">
+          <div class="Header_section">
+            <Button label="Who Dis?" onClick={this.handleWhoDisClick} active={this.state.isWhoDis} />
+            <Button label="Contact me!" />
+          </div>
+          <div class="Header_section">
+            <Button label="Github" onClick={this.handleGithubClick} active={false} />
+            <Button label="Facebook" onClick={this.handleFBClick} active={false} />
+          </div>
         </div>
+        <ColoredLine color="white" />
         <CV enable={this.state.isWhoDis} />
       </div>
     );
   }
 }
+
+const ColoredLine = ({ color }) => (
+  <hr
+    style={{
+      color: color,
+      backgroundColor: color,
+      height: 4,
+      border: 0,
+      margin: 4
+    }}
+  />
+);
 
 function openInNewTab(url) {
   var win = window.open(url, '_blank');

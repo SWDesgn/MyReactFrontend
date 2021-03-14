@@ -4,19 +4,63 @@
 }
 
 body {
+    min-height: 98vh;
     font-family: "VCR OSD Mono";
     font-size: 36px;
-    margin-top: 20px;
     text-align: center;
     background-color: chartreuse;
 }
 
+.App {
+    min-height: 98vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Footer {
+    margin-top: auto;
+}
 
 /* Style the tab */
 
-.Tab {
+.Header {
     overflow: hidden;
     background-color: inherit;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.Header_section {
+    /**
+     * Lay out the children of this container with
+     * flexbox.
+     */
+    display: flex;
+    /**
+     * Align the children in the center, along
+     * the main axis. By default the children will
+     * align along their top edges.
+     */
+    align-items: center;
+}
+
+.Footer {
+    overflow: hidden;
+    background-color: inherit;
+    margin-top: auto;
+    margin-bottom: 0;
+}
+
+.Footer_content {
+    overflow: hidden;
+    background-color: inherit;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .Button {
@@ -64,9 +108,6 @@ body {
     left: 20px;
     right: 20px;
     color: white;
-    position: absolute;
-    bottom: 0;
-    text-align: end;
 }
 
 .Time-time {
@@ -77,10 +118,11 @@ body {
 }
 
 .CV {
-    left: 10px;
-    right: 10px;
     color: white;
     text-align: center;
+    margin-top: 2%;
+    display: flex;
+    justify-content: center
 }
 
 .CV-Doc {
@@ -94,10 +136,11 @@ body {
     left: 20px;
     right: 20px;
     color: white;
-    position: absolute;
     font-style: oblique;
     font-weight: normal;
     bottom: 0;
     text-align: start;
     font-size: 25px;
+    margin: 0;
+    padding: 0;
 }
