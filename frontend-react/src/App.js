@@ -8,14 +8,15 @@ import {
   Route
 } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import emailjs from 'emailjs-com';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 
-import './index.css';
 
 import CVPdf from './cv.pdf';
 
 //===============COMPONENTS===============
-
 
 export default function App() {
   return (
@@ -40,12 +41,12 @@ class Header extends React.Component {
     return (
       <div className="Header">
         <div className="Header_navbar">
-          <div class="Header_navbar_section">
+          <div className="Header_navbar_section">
             <AboutButton />
             <ContactButton />
           </div>
           <HomeButton />
-          <div class="Header_navbar_section">
+          <div className="Header_navbar_section">
             <GithubRedirectButton />
             <FBRedirectButton />
           </div>
@@ -59,7 +60,7 @@ class Header extends React.Component {
 class Home extends React.Component {
   render() {
     return (
-      <div>
+      <div className="Content">
         <h2>under construction</h2>
       </div>
     );
@@ -69,9 +70,9 @@ class Home extends React.Component {
 class About extends React.Component {
   render() {
     return (
-      <div>
-        <h2>My CV</h2>
-        <div className="Content">
+      <div className="Content">
+        <div>
+          <h2>My CV</h2>
           <CV enable={true} />
         </div>
       </div>
@@ -82,8 +83,8 @@ class About extends React.Component {
 class Contact extends React.Component {
   render() {
     return (
-      <div>
-        <h2>under construction</h2>
+      <div className="Content">
+        <BootstrapForm />
       </div>
     );
   }
@@ -142,7 +143,7 @@ class CV extends React.Component {
         {isLoadedWorker &&
           <Document className="CV-Doc"
             file={CVPdf} renderMode="canvas" >
-            <Page pageNumber={1} renderAnnotationLayer="false" renderTextLayer="false" scale="1.2" renderInteractiveForms="false" />
+            <Page pageNumber={1} renderAnnotationLayer={true} renderTextLayer={false} scale={1.0} renderInteractiveForms={true} />
           </Document>}
       </div>
     );
@@ -198,7 +199,7 @@ function AboutButton() {
   }
 
   return (
-    <Button label="Who Dis?" onClick={handleClick} />
+    <NavButton label="Who Dis?" onClick={handleClick} />
   );
 }
 
@@ -210,7 +211,7 @@ function ContactButton() {
   }
 
   return (
-    <Button label="Contact" onClick={handleClick} />
+    <NavButton label="Contact" onClick={handleClick} />
   );
 }
 
@@ -224,7 +225,7 @@ function HomeButton() {
   }
 
   return (
-    <Button label="Home" onClick={handleClick} />
+    <NavButton label="Home" onClick={handleClick} />
   );
 }
 
@@ -236,7 +237,7 @@ function GithubRedirectButton() {
   }
 
   return (
-    <Button label="Github" onClick={handleClick} />
+    <NavButton label="Github" onClick={handleClick} />
   );
 }
 
@@ -248,10 +249,121 @@ function FBRedirectButton() {
   }
 
   return (
-    <Button label="Facebook" onClick={handleClick} />
+    <NavButton label="Facebook" onClick={handleClick} />
   );
 }
 
+
+class BootstrapForm extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      message: "",
+      error: false,
+      success: false
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onError = this.onError.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+
+    console.log("input change: " + name + ", " + value);
+  }
+
+  handleSubmit(event) {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    event.preventDefault();
+
+    const templateId = 'template_w8w6iyl';
+
+    this.sendFeedback(templateId, { from_name: this.state.email, message: this.state.message })
+  }
+
+
+  sendFeedback(templateId, variables) {
+    emailjs.init("user_mxFnMNeyq8URTGYUHrqZ0");
+    emailjs.send('service_xydmsph', templateId,
+      variables
+    ).then(res => {
+      //alert('Your message is sent!');
+      this.setState((state) => {
+        // Important: read `state` instead of `this.state` when updating.
+        return { success: true }
+      });
+      return;
+    })
+      // Handle errors here however you like, or use a React error boundary
+      .catch(this.onError)
+
+
+  }
+
+  onError() {
+    this.setState((state) => {
+      // Important: read `state` instead of `this.state` when updating.
+      return { error: true }
+    });
+  }
+
+  render() {
+
+    if (this.state.error) {
+      return (
+        <div className="ContactForm">
+          <div className="ContactForm-Content">
+            <h3>Error!</h3>
+          </div>
+        </div>
+      );
+    }
+
+    if (this.state.success) {
+      return (
+        <div className="ContactForm">
+          <div className="ContactForm-Content">
+            <h3>Your message has been sent!</h3>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="ContactForm">
+        <div className="ContactForm-Content">
+          <h2>Contact me!</h2>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label column="lg">Your Email</Form.Label>
+              <Form.Control name="email" required size="lg" type="email" placeholder="name@example.com" onChange={this.handleInputChange} />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label column="lg" >Your Message</Form.Label>
+              <Form.Control name="message" required size="lg" as="textarea" rows={4} placeholder="Type your text here" onChange={this.handleInputChange} />
+            </Form.Group>
+            <Button variant="outline-dark" size="lg" type="submit">Submit</Button>
+          </Form>
+        </div>
+      </div>
+    );
+  }
+}
 
 
 const ColoredLine = ({ color }) => (
@@ -274,17 +386,17 @@ function openInNewTab(url) {
 }
 
 
-class Button extends React.Component {
+class NavButton extends React.Component {
   render() {
     if (this.props.active) {
-      return <div className="Button">
-        <button className="Button-On" onClick={this.props.onClick} >
+      return <div className="NavButton">
+        <button className="NavButton-On" onClick={this.props.onClick} >
           {this.props.label}
         </button>
       </div>;
     } else {
-      return <div className="Button">
-        <button className="Button-Off" onClick={this.props.onClick} >
+      return <div className="NavButton">
+        <button className="NavButton-Off" onClick={this.props.onClick} >
           {this.props.label}
         </button>
       </div>;

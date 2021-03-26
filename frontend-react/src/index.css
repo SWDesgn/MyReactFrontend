@@ -9,6 +9,7 @@ body {
     font-size: 36px;
     text-align: center;
     background-color: chartreuse;
+    overflow: auto;
 }
 
 .App {
@@ -16,6 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: auto;
 }
 
 .Footer {
@@ -63,11 +65,11 @@ body {
     margin-right: 10px;
 }
 
-.Button {
+.NavButton {
     margin-top: 0px;
 }
 
-.Button-Off {
+.NavButton-Off {
     font-family: "VCR OSD Mono";
     font-size: xx-large;
     background-color: inherit;
@@ -76,17 +78,17 @@ body {
     border: none;
     float: left;
     color: white;
-    padding: 25px;
+    padding: 20px;
     text-align: center;
     outline: none;
 }
 
-.Button-Off:hover {
+.NavButton-Off:hover {
     background-color: white;
     color: chartreuse;
 }
 
-.Button-On {
+.NavButton-On {
     font-family: "VCR OSD Mono";
     font-size: xx-large;
     background-color: white;
@@ -95,7 +97,7 @@ body {
     border: none;
     float: left;
     color: chartreuse;
-    padding: 25px;
+    padding: 20px;
     text-align: center;
     outline: none;
 }
@@ -121,8 +123,7 @@ body {
     color: white;
     text-align: center;
     margin-top: 2%;
-    display: flex;
-    justify-content: center;
+    overflow: auto;
 }
 
 .CV-Doc {
@@ -144,4 +145,30 @@ body {
     font-size: 25px;
     margin: 0;
     padding: 0;
+}
+
+.ContactForm_Email {
+    width: 30vw;
+}
+
+.ContactForm_Message {
+    margin-top: 20px;
+    width: 50vw;
+    height: 40vh;
+    text-align: start;
+}
+
+.Content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2%;
+    color: white;
+    overflow: auto;
+}
+
+.ContactForm-Content {
+    margin-top: 2%;
+    width: 80vw;
+    color: white;
 }
