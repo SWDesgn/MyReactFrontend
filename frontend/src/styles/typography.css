@@ -1,0 +1,17 @@
+/*---General Style Setup---*/
+
+@font-face {
+  font-family: roboto;
+  src: url('fonts/roboto/roboto-regular.ttf');
+}
+
+@font-face {
+  font-family: 'ibm-plex-sans';
+  src: url('fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'ibm-plex-sans';
+  src: url('fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold.ttf');
+  font-weight: bold;
+}
